@@ -5,6 +5,9 @@ services:
     environment:
      - USER_UID=1000
      - USER_GID=1000
+     # https://docs.gitea.com/next/administration/config-cheat-sheet#webhook-webhook
+     - GITEA__webhook__ALLOWED_HOST_LIST=jenkins # loopback also valid
+     - GITEA__webhook__SKIP_TLS_VERIFY=true
     restart: always
     networks:
       - gitea
@@ -16,6 +19,7 @@ services:
      - "5555:3000"
      - "222:22"
   jenkins:
+    container_name: jenkins
     image: "jenkins/jenkins:lts-jdk17"
     volumes:
       - jenkins_home:/var/jenkins_home
